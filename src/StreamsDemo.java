@@ -1,9 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class StreamsDemo {
     public static void main(String[] args) {
@@ -80,6 +77,29 @@ public class StreamsDemo {
 
         //Functional Interface with 2 arguments
         //BiPredicate, BiFunction, BiConsumer
+
+        //BiPredicate -> Functional Interface -> boolean test(T t, U u)
+        BiPredicate<Integer,Integer> isSumEven = (x,y)-> (x+y)%2==0;
+        System.out.println(isSumEven.test(11,22));
+
+        //BiConsumer -> Functional Interface -> void accept(T t, U u)
+        BiConsumer<Integer,String> biConsumer = (x,y) -> {
+            System.out.println(x);
+            System.out.println(y);
+        };
+        biConsumer.accept(14,"bapu-ji");
+
+        //BiFunction -> BiFunction<T, U, R>   ---->   R apply(T t, U u);
+        BiFunction<String,String,Integer> biFunction = (x,y)-> (x+y).length();
+        System.out.println(biFunction.apply("ab","cd"));
+
+        //UnaryOperator<T> equals to Function<T,T>
+        UnaryOperator<Integer> unaryOperator = (x)-> x*2;
+        System.out.println(unaryOperator.apply(23));
+
+        //BinaryOperator<T> equals to BiFunction<T,T,T>
+        BinaryOperator<Integer> binaryOperator = (x,y)-> x+y;
+        System.out.println(binaryOperator.apply(33,66));
     }
 }
 

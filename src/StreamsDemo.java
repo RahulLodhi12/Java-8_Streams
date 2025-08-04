@@ -1,5 +1,9 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public class StreamsDemo {
     public static void main(String[] args) {
@@ -16,7 +20,7 @@ public class StreamsDemo {
         System.out.println(res);
 
 
-        //Predicate -> Functional Interface -> single abstract method -> test(Anything) -> boolean return type
+        //Predicate -> Functional Interface -> single abstract method -> boolean test(Anything) -> boolean return type
         Predicate<Integer> isEven = (val)->val%2==0;
         System.out.println(isEven.test(6));
 
@@ -25,7 +29,8 @@ public class StreamsDemo {
         Predicate<String> wordStartsWithA_and_EndsWithT = isWordStartsWithA.and(isWordEndsWithT); //"and" is default method, means it has body
         System.out.println(wordStartsWithA_and_EndsWithT.test("aryan"));
 
-        //Function
+
+        //Function -> Functional Interface -> R apply(T t) -> R is the return type and T is type of argument.
         Function<Integer,Integer> doubleIt = (val)->val*2; //doubleIt holds a reference to this lambda function.(object)
         //"holds a reference" means it holds a memory address pointing to the lambda function object.
         //Objects (including lambdas) are stored in memory (typically heap).
@@ -42,6 +47,39 @@ public class StreamsDemo {
 
         System.out.println(Function.identity().apply(51)); //"identity" method is a static -> no object is needed -> "ClassName.MethodName()" to access the static methods
         //Function.identity() -> It returns a lambda expression: (t -> t)
+
+
+        //Consumer -> Functional Interface -> void accept(T t) -> no return type
+        Consumer<Integer> print = (val)-> {
+            System.out.println(val);
+            System.out.println(val*11);
+        };
+        print.accept(11);
+
+        List<Integer> list = Arrays.asList(10, 20, 30);
+        Consumer<List<Integer>> printList = (x)->{
+            for(int i: x){
+                System.out.println(i);
+            }
+        };
+        printList.accept(list);
+
+        //Supplier -> Functional Interface -> T get() -> e.g. can be used for DB connection.
+        Supplier<String> getMsg = ()-> "helloWorld..!";
+        System.out.println(getMsg.get());
+
+        //Combined Example
+        Predicate<Integer> even = (x)-> x%2==0; //boolean
+        Function<Integer,Integer> square = (x)-> x*x; //integer(or any)
+        Consumer<Integer> value = (x)-> System.out.println(x); //no return-type
+        Supplier<Integer> number = ()-> 124; //integer(or any)
+
+        if(even.test(number.get())){
+            value.accept(square.apply(number.get()));
+        }
+
+        //Functional Interface with 2 arguments
+        //BiPredicate, BiFunction, BiConsumer
     }
 }
 

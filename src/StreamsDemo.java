@@ -93,13 +93,64 @@ public class StreamsDemo {
         BiFunction<String,String,Integer> biFunction = (x,y)-> (x+y).length();
         System.out.println(biFunction.apply("ab","cd"));
 
-        //UnaryOperator<T> equals to Function<T,T>
+        //UnaryOperator<T> equals to Function<T,T>, if type are same
         UnaryOperator<Integer> unaryOperator = (x)-> x*2;
         System.out.println(unaryOperator.apply(23));
 
-        //BinaryOperator<T> equals to BiFunction<T,T,T>
+        //BinaryOperator<T> equals to BiFunction<T,T,T>, if type are same
         BinaryOperator<Integer> binaryOperator = (x,y)-> x+y;
         System.out.println(binaryOperator.apply(33,66));
+
+
+
+        //Method Reference -> Method reference uses the :: operator to refer to a method without executing it.
+        //It's a shorter form of lambda when the lambda only calls a method.
+
+        /*
+        🧠 Rule:
+            - If a lambda only calls a method and passes its argument unchanged, it can be replaced with a method reference.
+        */
+
+        /*
+        General Syntax: for Method Reference
+        ClassName::staticMethod         // Static method reference
+        objectReference::instanceMethod // Instance method reference on an object
+        ClassName::instanceMethod       // Instance method reference on a class (used when instance is passed at runtime)
+        ClassName::new                  // Constructor reference
+        */
+
+        /*
+        | Type                        | Syntax                  | Example               | Equivalent Lambda            |
+        | --------------------------- | ----------------------- | --------------------- | ---------------------------- |
+        | Static method reference     | `ClassName::methodName` | `Math::abs`           | `x -> Math.abs(x)`           |
+        | Instance method (on object) | `objectRef::methodName` | `System.out::println` | `x -> System.out.println(x)` |
+        | Instance method (on class)  | `ClassName::methodName` | `String::toLowerCase` | `s -> s.toLowerCase()`       |
+        | Constructor reference       | `ClassName::new`        | `ArrayList::new`      | `() -> new ArrayList<>()`    |
+        */
+
+        List<String> names = Arrays.asList("rohan","mohan","rahul");
+        //Lambda Expression
+        names.forEach(x-> System.out.println(x)); //takes one argument x and passes it to the method System.out.println(x).
+
+        //Method Reference
+        names.forEach(System.out::println); //"System.out" is an object(of type PrintStream)
+        /*
+        System.out::println is a method reference that does the exact same thing:
+            - It refers to the method println() of the PrintStream object System.out.
+            - It will automatically receive each element of the stream as an argument to println.
+        */
+
+
+        //Constructor Reference
+//        Supplier<Person> supplier = () -> new Person(); //lambda expression
+        Supplier<Person> supplier = Person::new; //constructor reference i.e. ClassName::new
+        supplier.get();
+    }
+}
+
+class Person{
+    Person(){
+        System.out.println("Person constructed called..!");
     }
 }
 

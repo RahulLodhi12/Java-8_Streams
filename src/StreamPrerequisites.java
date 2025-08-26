@@ -2,7 +2,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.*;
 
-public class StreamsDemo {
+public class StreamPrerequisites {
     public static void main(String[] args) {
 
         //Lambda Expression -> Used to provide Body to Functional Interface abstract method.
@@ -17,7 +17,7 @@ public class StreamsDemo {
         System.out.println(res);
 
 
-        //Predicate -> Functional Interface -> single abstract method -> boolean test(Anything) -> boolean return type
+        //Predicate -> Functional Interface -> single abstract method -> boolean test(T t) -> boolean return type
         Predicate<Integer> isEven = (val)->val%2==0;
         System.out.println(isEven.test(6));
 
@@ -75,7 +75,7 @@ public class StreamsDemo {
             value.accept(square.apply(number.get()));
         }
 
-        //Functional Interface with 2 arguments
+        //Functional Interface with 2 arguments:
         //BiPredicate, BiFunction, BiConsumer
 
         //BiPredicate -> Functional Interface -> boolean test(T t, U u)
@@ -128,11 +128,13 @@ public class StreamsDemo {
         | Constructor reference       | `ClassName::new`        | `ArrayList::new`      | `() -> new ArrayList<>()`    |
         */
 
+
+        //INSTANCE METHOD (on object)
         List<String> names = Arrays.asList("rohan","mohan","rahul");
         //Lambda Expression
         names.forEach(x-> System.out.println(x)); //takes one argument x and passes it to the method System.out.println(x).
 
-        //Method Reference
+        //Method Reference -> Instance method reference on object -> objectRef::methodName
         names.forEach(System.out::println); //"System.out" is an object(of type PrintStream)
         /*
         System.out::println is a method reference that does the exact same thing:
@@ -141,10 +143,19 @@ public class StreamsDemo {
         */
 
 
-        //Constructor Reference
-//        Supplier<Person> supplier = () -> new Person(); //lambda expression
-        Supplier<Person> supplier = Person::new; //constructor reference i.e. ClassName::new
+
+        //CONSTRUCTOR REFERENCE
+        //Lambda expression
+        Supplier<Person> supplier = () -> new Person();
         supplier.get();
+//      The constructor is not called at the point of lambda creation, but only when supplier.get() is executed.
+
+        //Constructor reference i.e. ClassName::new
+        Supplier<Person> supplier1 = Person::new;
+        supplier1.get(); //supplier1.get() will call the Person constructor (the no-arg constructor in this case) and return a new Person object.
+//      the constructor is called when you invoke get(), not at the line where you assign Person::new.
+//      👉 Assignment (Person::new) just stores a reference.
+//      👉 Execution (supplier1.get()) actually calls the constructor.
     }
 }
 

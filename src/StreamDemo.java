@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StreamDemo {
@@ -28,8 +29,22 @@ public class StreamDemo {
         System.out.println(cnt2);
 
 
+        //Creating Stream
+        //1. From Collections
+        List<Integer> list = Arrays.asList(1,2,3,4,5,6);
+        Stream<Integer> stream = list.stream();
 
-        Stream<Integer> stream = numbers.stream();
+        //2. From Arrays
+        String[] strArr = {"ab","bc","ca"};
+        Stream<String> stream1 = Arrays.stream(strArr);
+
+        //3. Using Stream.of() -> Direct Method
+        Stream<Integer> stream2 = Stream.of(11, 22, 33, 44);
+
+        //4. Infinite Stream
+        Stream<Integer> stream3 = Stream.generate(() -> 1); //infinite stream with all elements '1'
+        List<Integer> collect = Stream.iterate(0, x -> x + 1).limit(40).collect(Collectors.toList());
+        System.out.println(collect);
 
     }
 }

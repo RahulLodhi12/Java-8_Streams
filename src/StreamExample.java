@@ -24,5 +24,45 @@ public class StreamExample {
         long count = str.chars().filter(ch -> ch=='l').count(); //chars() convert to stream
         System.out.println(count);
 
+
+
+        //Stateful and Stateless Intermediate Operations
+        /*
+        1. Stateless Operations: Fast, parallel friendly
+            - Each element is processed independently, without depending on other elements.
+            - Processing one element doesn’t require knowledge of previous or future elements.
+
+        Examples:
+            map()
+            filter()
+            flatMap()
+            peek()
+        */
+        List<String> player = Arrays.asList("Rahul", "Rohit", "Virat");
+        player.stream()
+                .filter(n -> n.startsWith("R"))   // independent check → stateless
+                .map(String::toUpperCase)         // independent transform → stateless
+                .forEach(System.out::println);
+
+
+        /*
+        2. Stateful Operations: May need buffering, slower
+            - Require state/knowledge of other elements in the stream to process correctly.
+            - May need to examine the entire stream (or at least more than one element) before producing output.
+
+        Examples:
+            sorted()
+            distinct()
+            limit()
+            skip()
+        */
+
+        List<Integer> vals = Arrays.asList(5, 2, 7, 2, 9);
+        vals.stream()
+                .distinct()       // must remember seen elements → stateful
+                .sorted()         // must look at whole list to order → stateful
+                .limit(3)         // needs element count tracking → stateful
+                .forEach(System.out::println);
+
     }
 }

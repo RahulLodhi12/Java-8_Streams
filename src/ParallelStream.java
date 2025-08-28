@@ -28,14 +28,14 @@ public class ParallelStream {
         //[1,2,3,4,5] -> [1,3,6,10,15]
         List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);
 
-        //With Stream
+        //With Sequential-Stream
         AtomicInteger sum= new AtomicInteger();
         List<Integer> cumulativeSum = nums.stream().map(x -> {
             int val = x + sum.get();
             sum.set(val);
             return val;
-            //Why Variable used in lambda expression should be final or effectively final ??
-            //Because, lambdas don’t really store the variable itself — they capture its value.
+            //Q. Why Variable used in lambda expression should be final or effectively final ??
+            //ANS. Because, lambdas don’t really store the variable itself — they capture its value.
             //If the variable could change later, it would be confusing: the lambda wouldn’t know which value to use.
         }).toList();
         System.out.println("With Stream: "+cumulativeSum);
@@ -48,6 +48,18 @@ public class ParallelStream {
             return val;
         }).toList();
         System.out.println("With Parallel-Stream: "+cumulativeSum1);
+
+
+        //Parallel Stream to Sequential Stream by using "sequential()"
+
+        List<String> names = Arrays.asList("Rahul", "Rohit", "Virat", "Dhoni" ,"Pant");
+        //Start with parallel stream
+        List<String> res = names.parallelStream()
+                .filter(name -> name.length() > 4)
+                .sequential() //Switch back to sequential stream
+                .toList();
+
+        System.out.println(res);
     }
 
     public static long factorial(int n){

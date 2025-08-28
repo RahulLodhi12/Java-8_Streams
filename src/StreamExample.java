@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class StreamExample {
     public static void main(String[] args){
@@ -24,6 +25,17 @@ public class StreamExample {
         long count = str.chars().filter(ch -> ch=='l').count(); //chars() convert to stream
         System.out.println(count);
 
+
+        //5. Same Stream is used again that is terminated before.
+        Stream<String> stream = names.stream();
+        List<String> list = stream.map(x -> x.toUpperCase())
+                .toList(); //terminated here
+        System.out.println(list);
+
+        //Exception: stream has already been operated upon or closed/terminated
+        List<String> ans = stream.map(x -> x.toLowerCase())
+                .toList();
+        System.out.println(ans);
 
 
         //Stateful and Stateless Intermediate Operations

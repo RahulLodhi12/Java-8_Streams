@@ -1,7 +1,9 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TerminalOps {
     /*
@@ -83,5 +85,26 @@ public class TerminalOps {
 
         Optional<Integer> findAny = list.stream().findAny();
         System.out.println(findAny.get()); //any random number from stream
+
+        //7. toArray
+        Object[] array = Stream.of(11, 22, 33).toArray();
+        System.out.println(Arrays.stream(array).toList());
+
+        //8. max/min
+        Optional<Integer> max = Stream.of(11, 77, 33, 44).max((a,b)->a-b);
+        System.out.println(max.get());
+
+        Optional<Integer> min = Stream.of(33, 44, 22, 77).min(Comparator.naturalOrder());
+        System.out.println(min.get());
+
+        //9. forEachOrdered -> forEach() does not guarantee order when using a parallel stream, but forEachOrdered() does.
+        List<Integer> nums = Arrays.asList(5, 6, 7, 8, 9);
+        System.out.println("forEach with Parallel-Stream:");
+        nums.parallelStream().forEach(x-> System.out.print(x+" "));
+        System.out.println();
+
+        System.out.println("forEachOrdered with Parallel-Stream:");
+        nums.parallelStream().forEachOrdered(x-> System.out.print(x+" "));
+        System.out.println();
     }
 }

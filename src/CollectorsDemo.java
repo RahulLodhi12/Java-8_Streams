@@ -25,8 +25,8 @@ public class CollectorsDemo {
         String concatedString = names.stream().map(String::toUpperCase).collect(Collectors.joining("$ "));
         System.out.println(concatedString);
 
-        // 5. Summarizing Data
-        // Generates statistical summary (count, sum, min, average, max)
+        //5. Summarizing Data
+        //Generates statistical summary (count, sum, min, average, max)
         List<Integer> list = Arrays.asList(2, 3, 5, 7, 11);
         IntSummaryStatistics stats = list.stream().collect(Collectors.summarizingInt(x -> x));
         System.out.println("Count: "+stats.getCount());
@@ -50,5 +50,25 @@ public class CollectorsDemo {
         System.out.println(words.stream().collect(Collectors.groupingBy(word->word.length(),Collectors.counting())));
         TreeMap<Integer, Long> treeMap = words.stream().collect(Collectors.groupingBy(w -> w.length(), () -> new TreeMap<>(), Collectors.counting()));
         System.out.println(treeMap);
+
+        //9. Partitioning Elements
+        //Partitions elements into two groups (true and false) based on a predicate
+        Map<Boolean, List<String>> listMap = words.stream().collect(Collectors.partitioningBy(w -> w.length() > 5));
+        System.out.println(listMap);
+
+        //10. Mapping and Collecting
+        //Applies a mapping function before collecting
+        List<String> stringList = words.stream().collect(Collectors.mapping(w -> w.toUpperCase(), Collectors.toList()));
+        System.out.println(stringList);
+
+
+        //11. toMap: Collectors.toMap() is a collector that collects the elements of a stream into a Map
+        //provide at least two functions:
+        //Key mapper → how to extract the key
+        //Value mapper → how to extract the value
+        List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry");
+        Map<String, Integer> stringIntegerMap = fruits.stream().collect(Collectors.toMap(f -> f, f -> f.length()));
+        System.out.println(stringIntegerMap);
+
     }
 }
